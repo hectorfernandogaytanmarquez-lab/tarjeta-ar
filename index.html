@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tarjeta AR - Héctor Gaytán</title>
+    
+    <!-- Igualamos a la versión 1.6.0 de A-Frame que funcionó en el otro archivo -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.6.0/dist/aframe-master.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <style>
+      .btn-cambio {
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        padding: 12px 24px; background: #00FF00; color: #000; font-weight: bold;
+        border: none; border-radius: 8px; z-index: 9999; cursor: pointer;
+        font-family: sans-serif; box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    
+    <button class="btn-cambio" onclick="window.location.href='./video.html'">
+      Cambiar a Escáner de Imagen (Video)
+    </button>
+
+    <!-- Calcamos los parámetros del renderer y vr-mode del archivo que sí funciona -->
+    <a-scene 
+        vr-mode-ui="enabled: false;" 
+        renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true;"
+        embedded 
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+      
+      <a-assets>
+        <a-asset-item id="scene" src="./models/scene.gltf"></a-asset-item>
+      </a-assets>
+
+      <!-- MARCADOR HIRO -->
+      <a-marker preset="hiro">
+        <a-entity rotation="-90 0 0">
+          <a-plane position="0 0.5 0" width="2" height="1.2" color="#111" material="opacity: 0.9"></a-plane>
+          <a-text value="Héctor Gaytán" color="#FFF" align="center" position="0 0.8 0.1" width="3"></a-text>
+          <a-text value="Estudiante de Informática\nTel: +52 XXXXXXXXXX\nhector@email.com" color="#8DF" align="center" position="0 0.4 0.1" width="1.8"></a-text>
+        </a-entity>
+      </a-marker>
+
+      <!-- MARCADOR BARCODE 6 -->
+      <a-marker type="barcode" value="6">
+        <a-entity gltf-model="#scene" scale="0.01 0.01 0.01" position="0 0 0"></a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
